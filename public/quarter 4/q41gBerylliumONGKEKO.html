@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>q41gSectionLN</title>
+    <title>q41gBerylliumONGKEKO</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; }
-        .movie-container { width: 400px; border: 1px solid #ddd; padding: 20px; border-radius: 10px; box-shadow: 2px 2px 10px #ccc; }
+        /* page styling to make the content centered */
+        body {font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center;}
         
-        input, select { width: 100%; padding: 8px; margin: 10px 0; display: block; }
-        label { font-weight: bold; }
-
-        .rating-box { direction: rtl; display: inline-block; }
-        .rating-box input { display: none; }
-        .rating-box label { font-size: 30px; color: lightgray; cursor: pointer; }
-        .rating-box input:checked ~ label { color: gold; }
-
-        button { width: 100%; background-color: #007bff; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        /* container for the form */
+        .movie-container {width: 400px; border: 1px solid #ddd; padding: 20px; border-radius: 10px; box-shadow: 2px 2px 10px #ccc;}
         
-        .item { border: 1px solid #eee; padding: 10px; margin-top: 10px; border-radius: 5px; background: #fafafa; }
-        .gold { color: gold; }
+        /* makes inputs and selects full width! */
+        input, select {width: 100%; padding: 8px; margin: 10px 0; display: block;}
+        label {font-weight: bold;}
+
+        /* rating system (uses dierection:rtl so stars light up L to R) */
+        .rating-box {direction: rtl; display: inline-block;}
+        .rating-box input { display: none;}
+        .rating-box label {font-size: 30px; color: lightgray; cursor: pointer;}
+        .rating-box input:checked ~ label {color: gold;}
+
+        button {width: 100%; background-color: #007bff; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;}
+        
+        .item {border: 1px solid #eee; padding: 10px; margin-top: 10px; border-radius: 5px; background: #fafafa;}
+        .gold {color: gold;}
     </style>
 </head>
 <body>
@@ -55,6 +60,7 @@
     </div>
 
     <script>
+        // already loads movies from storage
         showMovies();
 
         function addMovie() {
@@ -124,9 +130,11 @@
                     display.innerHTML += "<div class='item'>" + 
                         m.title + " (" + m.year + ") - " + m.genre + ", Rating: " + starDisplay + 
                         "</div>";
+                        
                 }
             }
         }
+        
     </script>
 </body>
 </html>

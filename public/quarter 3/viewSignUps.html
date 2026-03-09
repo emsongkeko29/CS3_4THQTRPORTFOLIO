@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Signups - Student List</title>
+    <style>
+        body {
+            padding: 25px;
+            font-family: Arial, sans-serif;
+            background-color: rgb(152, 199, 238);
+            width: 90%;
+            margin: auto;
+        }
+        h1 { margin-bottom: 5px; }
+        .author { margin-top: 0; margin-bottom: 20px; font-weight: bold; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            margin-top: 20px;
+        }
+        th {
+            background-color: #000080; 
+            color: white;
+            padding: 10px;
+            border: 1px solid #444;
+        }
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+
+        .filter-section { margin-bottom: 20px; }
+        select { padding: 8px; border-radius: 5px; border: 2px solid #000080; }
+        .no-data-msg {
+            padding: 15px;
+            border: 1px solid #000;
+            background: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Show List of Students Who Signed-Up</h1>
+    <p class="author">by EM Ongkeko</p>
+
+    <nav>
+        <a href="index.html">Back to Signup</a>
+    </nav>
+
+    <div class="filter-section">
+        <p>Select Your Club 
+            <select id="clubFilter" onchange="renderTable()">
+                <option value="All">-- select an option --</option>
+                <option value="Bake Club">Bake Club</option>
+                <option value="Himig Agham">Himig Agham</option>
+                <option value="Computron">Computron</option>
+                <option value="PSHS-MUN">PSHS-MUN</option>
+                <option value="Kislap">Kislap</option>
+                <option value="Sightlines">Sightlines</option>
+                <option value="Kamalayan">Kamalayan</option>
+                <option value="Volant">Volant</option>
+                <option value="Likha">Likha</option>
+            </select>
+        </p>
+    </div>
+
+    <p>Total Signup : <span id="totalDisplay">0</span></p>
+
+    <div id="displayArea">
+        </div>
+
+    <script>
+        function renderTable() {
+            const filterValue = document.getElementById('clubFilter').value;
+            const displayArea = document.getElementById('displayArea');
+            const totalDisplay = document.getElementById('totalDisplay');
+
+            // 1. Get data from localStorage
+            const rawData = localStorage.getItem('studentSignups');
+            
+            // 2. Check if localStorage is empty
+            if (!rawData) {
+                displayArea.innerHTML = "<div class='no-data-msg'>No data found in LocalStorage. Please sign up first.</div>";
+                totalDisplay.textContent = "0";
+                return;
+            }
+
+            let students = JSON.parse(rawData);
+
+            // 3. Filter data based on dropdown
+            let filteredList = students;
+            if (filterValue !== "All") {
+                filteredList = students.filter(s => s.club === filterValue);
+            }
+
+            // 4. Update the Total Signup count
+            totalDisplay.textContent = filteredList.length;
+
+            // 5. Check if the filtered list is empty
+            if (filteredList.length === 0) {
+                displayArea.innerHTML = "<div class='no-data-msg'>No Sign Ups for the club</div>";
+                return;
+            }
+
+            // 6. Build the table
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Club</th>
+                            <th>ID</th>
+                            <th>Fullname</th>
+                            <th>Grade</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Intern|Extern</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            filteredList.forEach(student => {
+                tableHTML += `
+                    <tr>
+                        <td>${student.club}</td>
+                        <td>${student.id}</td>
+                        <td>${student.fullname}</td>
+                        <td>${student.grade}</td>
+                        <td>${student.email}</td>
+                        <td>${student.mobile}</td>
+                        <td>${student.type}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += "</tbody></table>";
+            displayArea.innerHTML = tableHTML;
+        }
+
+        window.onload = renderTable;
+    </script>
+</body>
+</html>

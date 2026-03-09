@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Q3 2nd Graded Exercise">
+    <meta name="keywords" content="HTML Forms">
+    <meta name="author" content="AL Mendoza">
+    <title>Sample Form</title>
+    <!-- updated external css link to show how to share it between repository -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="icon" href="../../assets/pshslogo.png" sizes="32x32" type="image/png">
+    <script src="script.js" defer></script>
+   <style>
+    body{
+        padding: 25px;
+        font-family: arial;
+        width: 80%;
+        margin-left: 10%;
+        }
+
+        .title {
+            color: #8085b1;
+        }
+
+        fieldset:nth-child(2) {
+             margin-top: 20px;
+        }
+
+        legend {
+            background: black;
+            color: white;
+            padding: 5px;
+        }
+        label {
+             margin: 5%;
+        }
+
+        body {
+            background-color:rgb(152, 199, 238);
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+    </style>
+  </head>
+  <body>
+     <header>
+        <div>
+            <img src="../../assets/pshslogo.png" alt="pshs logo" 
+               title="The Official Logo" width="50px" height="50px" />
+            <h1>
+                Sample Use of HTML Form    
+            </h1>
+            <h3>by EM Ongkeko </h3>
+        </div>
+        <nav class="navbar">
+            <a href="../../index.html"> Home </a>
+            <a href="registered.html"> Show Saved Accounts </a>
+        </nav>
+    </header>
+    <section>
+      <h1 class="title">Sign-up Page</h1>
+      <form id="dForm" action="registered.html" method="get">
+        <fieldset>
+          <legend>Your Credentials</legend><br/>
+          <label> StudentID: 
+            <input type="number" name="studentId" id="studentId" required />
+          </label><br/><br/>
+          <label> Full Name:
+            <input type="text" name="fullName" id="fullName" required />
+          </label><br/><br/>
+          <label> Birthday:
+            <input type="date" name="bDay" id="bDay" />
+          </label><br/><br/>
+          <label> Email Address:
+            <input type="email" name="email" id="email" />
+          </label><br/><br/>
+          <label> Mobile phone:
+            <input type="text" name="mp" id="mp" /> 
+          </label><br/><br/>
+          <label> Grade Level: </label>
+            <select id="gradeLevel" name="gradeLevel">
+            <option value="G7" selected>Grade 7</option>
+            <option value="G8" selected>Grade 8</option>
+            <option value="G9" selected>Grade 9</option>
+            <option value="G10" selected>Grade 10</option>
+            <option value="G11" selected>Grade 11</option>
+            <option value="G12" selected>Grade 12</option>
+            </select><br/><br/>
+
+           <input type="radio" id="int" name="int" value="intern">
+           <label for="int">Intern</label><br>
+           <input type="radio" id="ext" name="ext" value="extern">
+           <label for="ext">Extern</label><br><br/><br/>
+
+           <label>Preferred Organization/Club: </label>
+            <select id="clubOrg" name="clubOrg">
+            <option value="mun" selected>PSHS-MUN</option>
+            <option value="kislap" selected>Kislap</option>
+            <option value="sightlines" selected>Sightlines</option>
+            <option value="kamalayan" selected>Kamalayan</option>
+            <option value="volant" selected>Volant</option>
+            <option value="likha" selected>Likha</option>
+            </select><br/><br/>
+            
+            <label> Why do you want to join?:
+                <textarea required onblur="chk(this)"></textarea>
+              </label><br/><br/>
+
+          <br/><br/>
+          
+          
+        </fieldset>  
+        <fieldset>
+          <legend>Action Buttons</legend>
+          <button type="submit"> Accept </button>
+          <input type="reset" value="Reset" />
+        </fieldset><br/><br/>
+        
+      </form>
+    </section>
+    <script src="q3e3script.js"></script>
+  </body>
+</html>
