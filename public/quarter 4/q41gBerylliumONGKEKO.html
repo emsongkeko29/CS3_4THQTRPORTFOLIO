@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>q41gBerylliumONGKEKO</title>
+    <title>Movie Tracker - Exercise 2</title>
     <style>
         /* page styling to make the content centered */
-        body {font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center;}
+        body {font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; background-color: #f9f9f9;}
         
         /* container for the form */
-        .movie-container {width: 400px; border: 1px solid #ddd; padding: 20px; border-radius: 10px; box-shadow: 2px 2px 10px #ccc;}
+        .movie-container {width: 400px; border: 1px solid #ddd; padding: 20px; border-radius: 10px; box-shadow: 2px 2px 10px #ccc; background: white; margin-top: 20px;}
         
-        /* makes inputs and selects full width! */
-        input, select {width: 100%; padding: 8px; margin: 10px 0; display: block;}
+        /* makes inputs and selects full width */
+        input, select {width: 100%; padding: 8px; margin: 10px 0; display: block; box-sizing: border-box;}
         label {font-weight: bold;}
 
-        /* rating system (uses dierection:rtl so stars light up L to R) */
+        /* rating system */
         .rating-box {direction: rtl; display: inline-block;}
         .rating-box input { display: none;}
         .rating-box label {font-size: 30px; color: lightgray; cursor: pointer;}
         .rating-box input:checked ~ label {color: gold;}
 
-        button {width: 100%; background-color: #007bff; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;}
+        /* Blue Add Movie button */
+        .add-btn {width: 100%; background-color: #007bff; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;}
         
-        .item {border: 1px solid #eee; padding: 10px; margin-top: 10px; border-radius: 5px; background: #fafafa;}
+        /* movie list items */
+        .item {border: 1px solid #eee; padding: 10px; margin-top: 10px; border-radius: 5px; background: #fafafa; display: flex; justify-content: space-between; align-items: center;}
         .gold {color: gold;}
+
+        /* delete button styling */
+        .del-btn {background-color: #f2f2f2; border: 1px solid #ccc; padding: 5px 10px; cursor: pointer; border-radius: 4px;}
+        .del-btn:hover {background-color: #e0e0e0;}
     </style>
 </head>
 <body>
 
     <div class="movie-container">
-        <h1 style="text-align: center;">Add a Movie</h1>
+        <h2 style="text-align: center;">Add / Update a Movie Rating</h2>
         
         <label>Title:</label>
         <input type="text" id="movieTitle">
@@ -53,88 +59,121 @@
             <input type="radio" name="star" id="str1" value="1"><label for="str1">★</label>
         </div>
 
-        <button onclick="addMovie()">Add Movie</button>
+        <button class="add-btn" onclick="addMovie()">Add Movie</button>
 
         <h2 style="text-align: center;">Movie List</h2>
         <div id="displayArea"></div>
     </div>
 
     <script>
-        // already loads movies from storage
+        // load list
         showMovies();
 
         function addMovie() {
-            // get values
             var title = document.getElementById("movieTitle").value;
             var year = document.getElementById("movieYear").value;
             var genre = document.getElementById("movieGenre").value;
             
-            // get the rating 
+            // 1. get rating
             var rating = 0;
             var stars = document.getElementsByName("star");
             for (var i = 0; i < stars.length; i++) {
                 if (stars[i].checked) {
-                    rating = stars[i].value;
+                    rating = parseInt(stars[i].value);
                 }
             }
 
-            // javascript object
-            var movieObject = {
-                title: title,
-                year: year,
-                genre: genre,
-                rating: rating
-            };
-
-            var currentList = localStorage.getItem("movies");
-            var movieArray;
-
-            if (currentList == null) {
-                movieArray = [];
-            } else {
-                movieArray = JSON.parse(currentList);
+            // validation
+            if (title == "" || year == "" || rating == 0) {
+                alert("Please fill in all fields and pick a rating!");
+                return;
             }
 
-            // add new object
-            movieArray.push(movieObject);
+            // 2. get list from LocalStorage
+            var currentList = localStorage.getItem("movies");
+            var movieArray = currentList ? JSON.parse(currentList) : [];
+
+            // 3. update
+            var found = false;
+            for (var i = 0; i < movieArray.length; i++) {
+                if (movieArray[i].title.toLowerCase() === title.toLowerCase()) {
+                    // update the year and genre
+                    movieArray[i].year = year;
+                    movieArray[i].genre = genre;
+                    // average the star rating: (Old + New) / 2
+                    movieArray[i].rating = (parseFloat(movieArray[i].rating) + rating) / 2;
+                    found = true;
+                    break;
+                }
+            }
+
+            // 4. if not found, add as a new movie
+            if (!found) {
+                var movieObject = {
+                    title: title,
+                    year: year,
+                    genre: genre,
+                    rating: rating
+                };
+                movieArray.push(movieObject);
+            }
+
+            // 5. save back to storage
             localStorage.setItem("movies", JSON.stringify(movieArray));
 
-            // clear inputs
+            // clear inputs 
             document.getElementById("movieTitle").value = "";
             document.getElementById("movieYear").value = "";
             showMovies();
         }
 
+        // DELETE
+        function deleteMovie(index) {
+            // Ask for confirmation first
+            var confirmed = confirm("Are you sure you want to delete?");
+            if (confirmed) {
+                var data = localStorage.getItem("movies");
+                var movieArray = JSON.parse(data);
+                
+                // remove the movie at that index
+                movieArray.splice(index, 1);
+                
+                // save and refresh
+                localStorage.setItem("movies", JSON.stringify(movieArray));
+                showMovies();
+            }
+        }
+
         function showMovies() {
             var display = document.getElementById("displayArea");
-            display.innerHTML = ""; // clear the list
+            display.innerHTML = ""; 
 
             var data = localStorage.getItem("movies");
             if (data != null) {
                 var movieArray = JSON.parse(data);
 
-                // loop thru the array
                 for (var i = 0; i < movieArray.length; i++) {
                     var m = movieArray[i];
                     
-                    // make stars
+                    // create star display 
                     var starDisplay = "";
+                    var roundedStars = Math.round(m.rating);
                     for (var s = 1; s <= 5; s++) {
-                        if (s <= m.rating) {
+                        if (s <= roundedStars) {
                             starDisplay += "<span class='gold'>★</span>";
                         } else {
                             starDisplay += "<span>★</span>";
                         }
                     }
 
+                    // add item & delete button
                     display.innerHTML += "<div class='item'>" + 
-                        m.title + " (" + m.year + ") - " + m.genre + ", Rating: " + starDisplay + 
+                        "<span>" + m.title + " (" + m.year + ") - " + m.genre + ", Rating: " + starDisplay + "</span>" +
+                        "<button class='del-btn' onclick='deleteMovie(" + i + ")'>Delete</button>" +
                         "</div>";
-                        
                 }
             }
         }
-        
     </script>
 </body>
 </html>
