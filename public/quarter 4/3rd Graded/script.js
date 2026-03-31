@@ -1,55 +1,28 @@
-document.getElementById('checkBtn').addEventListener('click', function() {
-    // 1. inputs
-    const n = parseInt(document.getElementById('divN').value);
-    const m = parseInt(document.getElementById('divM').value);
-    const x = parseInt(document.getElementById('resX').value);
-    const y = parseInt(document.getElementById('resY').value);
+function plotPoint(x0, y0, x, y) {
+    console.log("Division Point:", x0, y0, "Target Point:", x, y); 
 
-    // validation
-    if (isNaN(x) || isNaN(y)) {
-        alert("Please enter residence coordinates!");
-        return;
-    }
+    const in1 = document.getElementById('in1');
+    const out1 = document.getElementById('out1');
+    in1.innerHTML = x0 + " " + y0 + " " + x + " " + y;
 
-    // 2. LOOOOOOOP LOGICC
-    let result = "";
-    if (x === n || y === m) {
-        result = "divisa";
-    } else if (x > n && y > m) {
-        result = "NE";
-    } else if (x < n && y > m) {
-        result = "NO";
-    } else if (x > n && y < m) {
-        result = "SE";
-    } else if (x < n && y < m) {
-        result = "SO";
-    }
-
-    // 3. table row
-    const tableBody = document.getElementById('tableBody');
-    const newRow = document.createElement('tr'); 
-    newRow.innerHTML = `
-        <td>(${n}, ${m})</td>
-        <td>(${x}, ${y})</td>
-        <td><strong>${result}</strong></td>
-    `;
-    tableBody.appendChild(newRow);
-
-    // 4. map dot
-    const mapContainer = document.getElementById('map-container');
-    const newDot = document.createElement('div');
+    var point = document.createElement('div');  
+    point.className = 'point';
     
-    newDot.className = "residence-point";
-
-    const center = 200; 
-    const scale = 10;
+    point.style.position = 'absolute';
+    point.style.left = (x - x0 + 200 - 5) + 'px'; 
+    point.style.bottom = (y - y0 + 200 - 5) + 'px'; 
     
-    let plotX = center + ((x - n) * scale);
-    let plotY = center - ((y - m) * scale);
+    document.getElementById('coordinatePlane').appendChild(point);
 
-    newDot.style.left = plotX + "px";
-    newDot.style.top = plotY + "px";
-
-    // add to map
-    mapContainer.appendChild(newDot);
-});
+    if (x === x0 || y === y0) {
+        out1.innerHTML = "divisa";
+    } else if (x > x0 && y > y0) {
+        out1.innerHTML = "NE";
+    } else if (x < x0 && y < y0) {
+        out1.innerHTML = "SO";
+    } else if (x > x0 && y < y0) {
+        out1.innerHTML = "SE";
+    } else if (x < x0 && y > y0) {
+        out1.innerHTML = "NO";
+    }
+}
