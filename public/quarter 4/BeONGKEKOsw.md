@@ -95,16 +95,24 @@ The notice appears on top because the z-index is higher. If you swap the z-index
 
 - Challenge: 
     * What changes do you have to do on the code that will position .notice box on the top right corner of the .content box? Please write the code on paper as well (both html and css on the part of .notice and .content).
+    You need to make .content to relative. After that, .notice should be set to absolute (top:0 and right:0).
     
     * Try to change the position of .content to relative then to fixed. What do you observed each time?
+    When it's relative, it stays in its natural position but allows children to align to it. But when it's fixed, it stays on a specific part of the screen.
+
     * What do you observe on about the effect of z-index on .notice and .content boxes?
+    The z-index determines the order of layering of elements that overlap. A higher z-index goes in front of something with a lower z-index.
 
 3. Please answer the following reflection questions (15 minutes)
 
     a. Could you summarize the differences between the CSS position values (static, relative, absolute, fixed)? 
+    Static is the default where elements just stack naturally. Relative keeps the element in the flow but it can be shifted a bit. Absolute removes an element from the flow to put it relative to a parent. Fixed ignores parents to stay put in the browser window.
 
     b. How does absolute positioning depend on its parent element?
+    The element will look up its structure for the first element that has the relative, absolute, or fixed position. If there's none, it aligns itself to the entire webpage.
 
     c. How do you differentiate sticky from fixed (you can research on sticky)?
+    A fixed element is locked to the screen and doesn't move. A sticky element acts like it's relative while you scroll until you get to a certain point.
 
     d. If you were designing a webpage for a school event, how might you use positioning to highlight important information? Please give concrete examples.
+    I would use fixed for a register button so it stays in the corner while other students look at the event details. I would use absolute to put a "new" badge on top of a club logo, and sticky would make the "Event Schedule" header at the top of the screen while the user scrolls.

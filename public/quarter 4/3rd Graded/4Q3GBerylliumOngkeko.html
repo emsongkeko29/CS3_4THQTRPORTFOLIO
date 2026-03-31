@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Ongkeko">
+    <title>Nlogonia Division Checker - Exercise 3</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Nlogonia Division System</h1>
+    <p>3rd Graded Exercise</p>
+
+    <div class="input-section">
+        <div class="input-group">
+            <h3>Division Point (N, M)</h3>
+            <input type="number" id="divN" value="0">
+            <input type="number" id="divM" value="0">
+        </div>
+        
+        <div class="input-group">
+            <h3>Residence Coordinates (X, Y)</h3>
+            <input type="number" id="resX" placeholder="X">
+            <input type="number" id="resY" placeholder="Y">
+        </div>
+        <br>
+        <button id="checkBtn">Check & Plot Location</button>
+    </div>
+
+    <div id="map-container">
+        <div id="line-ns"></div>
+        <div id="line-ew"></div>
+        </div>
+
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>Division Point</th>
+                <th>Residence</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>
